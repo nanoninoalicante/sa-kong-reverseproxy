@@ -88,10 +88,18 @@ admin:
 # https://github.com/Kong/charts/blob/main/charts/kong/FAQs.md#kong-fails-to-start-after-helm-upgrade-when-postgres-is-used-what-do-i-do
 
 postgresql:
-  enabled: "true"
-  postgresqlUsername: "kong"
-  postgresqlDatabase: "kong"
-  postgresqlPassword: "kong"
+  enabled: true
+  auth:
+    username: kong
+    database: kong
+    password: kong
+  image:
+    # use postgres < 14 until is https://github.com/Kong/kong/issues/8533 resolved and released
+    # enterprise (kong-gateway) supports postgres 14
+    tag: 13.6.0-debian-10-r52
+  service:
+    ports:
+      postgresql: "5432"
 
 # -----------------------------------------------------------------------------
 # Miscellaneous parameters
