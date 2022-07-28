@@ -1,10 +1,10 @@
     
 env:
   #database: "off"
-  database: "off"
-  pg_user: "kong"
-  pg_password: "kong"
-  pg_database: "kong"
+  database: "postgres"
+  pg_user: "postgres"
+  pg_password: "rkPrBxNR3O"
+  pg_database: "postgres"
   ph_host: "kong-postgresql"
   # admin_api_uri: "http://admin.kongproxy.me"
   # admin_gui_url: "http://manager.kongproxy.me"
@@ -67,10 +67,10 @@ admin:
 # PostgreSQL chart documentation:
 # https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
 
-postgresql:
-  enabled: true
-  postgresqlUsername: kong
-  postgresqlDatabase: kong
-  postgresqlPassword: kong  
+# postgresql:
+#   enabled: true
+#   postgresqlUsername: kong
+#   postgresqlDatabase: kong
+#   postgresqlPassword: kong  
   # service:
   #   port: 5432
