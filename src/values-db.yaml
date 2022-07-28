@@ -58,7 +58,7 @@ admin:
   # API of Kong outside the k8s cluster.
   ingress:
     # Enable/disable exposure using ingress.
-    enabled: true
+    enabled: false
     ingressClassName:
     # TLS secret name.
     # tls: kong-admin.example.com-tls
