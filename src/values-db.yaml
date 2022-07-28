@@ -7,16 +7,27 @@ env:
   pg_port: "5432"
   pg_database: "kong"
 
-proxy:
-  # Enable creating a Kubernetes service for the proxy
+# -----------------------------------------------------------------------------
+# Ingress Controller parameters
+# -----------------------------------------------------------------------------
+
+# Kong Ingress Controller's primary purpose is to satisfy Ingress resources
+# created in k8s.  It uses CRDs for more fine grained control over routing and
+# for Kong specific configuration.
+ingressController:
   enabled: true
-  type: LoadBalancer
-  # To specify annotations or labels for the proxy service, add them to the respective
-  # "annotations" or "labels" dictionaries below.
-  annotations: {
+  # Then the certificate is provided via a TLS secret
+    # secretName: ""
+    # Specifiy the CA bundle of the provided certificate.
+    # This is a PEM encoded CA bundle which will be used to validate the webhook certificate. If unspecified, system trust roots on the apiserver are used.
+    # caBundle:
+    #   | Add the CA bundle content here.
+
+  ingressClass: gce
+  # annotations for IngressClass resource (Kubernetes 1.18+)
+  ingressClassAnnotations: {
     kubernetes.io/ingress.class: gce
   }
-
 # Enable/disable migration jobs, and set annotations for them
 migrations:
   # Enable pre-upgrade migrations (run "kong migrations up")
