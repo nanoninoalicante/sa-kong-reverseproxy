@@ -39,7 +39,7 @@ admin:
   # API of Kong outside the k8s cluster.
   ingress:
     # Enable/disable exposure using ingress.
-    enabled: false
+    enabled: true
     ingressClassName:
     # TLS secret name.
     # tls: kong-admin.example.com-tls
@@ -68,8 +68,8 @@ image:
     
 env:
   database: "off"
-  admin_api_uri: "http://104.196.205.210:8001"
-  admin_gui_url: "http://34.75.238.39:8002"
+  # admin_api_uri: "http://104.196.205.210:8001"
+  # admin_gui_url: "http://34.75.238.39:8002"
   
 manager:
   # Enable creating a Kubernetes service for Kong Manager
