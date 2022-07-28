@@ -1,6 +1,22 @@
 # Specify Kong admin API service and listener configuration
 env:
   database: "postgres"
+  pg_user: "kong"
+  pg_password: "kong"
+  pg_host: "postgres-postgresql"
+  pg_port: "5432"
+  pg_database: "kong"
+
+# Enable/disable migration jobs, and set annotations for them
+migrations:
+  # Enable pre-upgrade migrations (run "kong migrations up")
+  preUpgrade: true
+  # Enable post-upgrade migrations (run "kong migrations finish")
+  postUpgrade: true
+
+postgresql:
+  enabled: false
+
 admin:
   # Enable creating a Kubernetes service for the admin API
   # Disabling this is recommended for most ingress controller configurations
