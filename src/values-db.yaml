@@ -7,27 +7,40 @@ env:
   pg_port: "5432"
   pg_database: "kong"
 
-# -----------------------------------------------------------------------------
-# Ingress Controller parameters
-# -----------------------------------------------------------------------------
-
-# Kong Ingress Controller's primary purpose is to satisfy Ingress resources
-# created in k8s.  It uses CRDs for more fine grained control over routing and
-# for Kong specific configuration.
-ingressController:
+proxy:
+  # Enable creating a Kubernetes service for the proxy
   enabled: true
-  # Then the certificate is provided via a TLS secret
-    # secretName: ""
-    # Specifiy the CA bundle of the provided certificate.
-    # This is a PEM encoded CA bundle which will be used to validate the webhook certificate. If unspecified, system trust roots on the apiserver are used.
-    # caBundle:
-    #   | Add the CA bundle content here.
-
-  ingressClass: gce
-  # annotations for IngressClass resource (Kubernetes 1.18+)
-  ingressClassAnnotations: {
+  type: LoadBalancer
+  # To specify annotations or labels for the proxy service, add them to the respective
+  # "annotations" or "labels" dictionaries below.
+  annotations: {
     kubernetes.io/ingress.class: gce
   }
+  labels:
+    enable-metrics: "true"
+
+  http:
+    # Enable plaintext HTTP listen for the proxy
+    enabled: true
+    servicePort: 80
+    containerPort: 8000
+    # Set a nodePort which is available if service type is NodePort
+    # nodePort: 32080
+    # Additional listen parameters, e.g. "reuseport", "backlog=16384"
+    parameters: []
+
+  tls:
+    # Enable HTTPS listen for the proxy
+    enabled: true
+    servicePort: 443
+    containerPort: 8443
+    # Set a target port for the TLS port in proxy service
+    # overrideServiceTargetPort: 8000
+    # Set a nodePort which is available if service type is NodePort
+    # nodePort: 32443
+    # Additional listen parameters, e.g. "reuseport", "backlog=16384"
+    parameters:
+    - http2
 # Enable/disable migration jobs, and set annotations for them
 migrations:
   # Enable pre-upgrade migrations (run "kong migrations up")
