@@ -13,9 +13,7 @@ proxy:
   type: LoadBalancer
   # To specify annotations or labels for the proxy service, add them to the respective
   # "annotations" or "labels" dictionaries below.
-  annotations: {
-    kubernetes.io/ingress.class: gce
-  }
+  annotations: {}
   labels:
     enable-metrics: "true"
 
