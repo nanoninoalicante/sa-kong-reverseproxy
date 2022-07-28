@@ -1,0 +1,112 @@
+# Specify Kong admin API service and listener configuration
+
+env:
+  database: "off"
+  pg_user: "kong"
+  pg_password: "kong"
+  pg_database: "kong"
+  ph_host: "kong-postgresql"
+
+
+admin:
+  # Enable creating a Kubernetes service for the admin API
+  # Disabling this is recommended for most ingress controller configurations
+  # Enterprise users that wish to use Kong Manager with the controller should enable this
+  enabled: true
+  type: LoadBalancer
+  # To specify annotations or labels for the admin service, add them to the respective
+  # "annotations" or "labels" dictionaries below.
+  annotations: {}
+  #  service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+  labels: {}
+
+  http:
+    # Enable plaintext HTTP listen for the admin API
+    # Disabling this and using a TLS listen only is recommended for most configuration
+    enabled: true
+    servicePort: 8001
+    containerPort: 8001
+    # Set a nodePort which is available if service type is NodePort
+    # nodePort: 32080
+    # Additional listen parameters, e.g. "reuseport", "backlog=16384"
+    parameters: []
+
+  tls:
+    # Enable HTTPS listen for the admin API
+    enabled: true
+    servicePort: 8444
+    containerPort: 8444
+    # Set a target port for the TLS port in the admin API service, useful when using TLS
+    # termination on an ELB.
+    # overrideServiceTargetPort: 8000
+    # Set a nodePort which is available if service type is NodePort
+    # nodePort: 32443
+    # Additional listen parameters, e.g. "reuseport", "backlog=16384"
+    parameters:
+    - http2
+
+  # Kong admin ingress settings. Useful if you want to expose the Admin
+  # API of Kong outside the k8s cluster.
+  ingress:
+    # Enable/disable exposure using ingress.
+    enabled: false
+    ingressClassName:
+    # TLS secret name.
+    # tls: kong-admin.example.com-tls
+    # Ingress hostname
+    hostname:
+    # Map of ingress annotations.
+    annotations: {}
+    # Ingress path.
+    path: /
+    # Each path in an Ingress is required to have a corresponding path type. (ImplementationSpecific/Exact/Prefix)
+    pathType: ImplementationSpecific
+
+
+# -----------------------------------------------------------------------------
+# Postgres sub-chart parameters
+# -----------------------------------------------------------------------------
+
+# Kong can run without a database or use either Postgres or Cassandra
+# as a backend datatstore for it's configuration.
+# By default, this chart installs Kong without a database.
+
+# If you would like to use a database, there are two options:
+# - (recommended) Deploy and maintain a database and pass the connection
+#   details to Kong via the `env` section.
+# - You can use the below `postgresql` sub-chart to deploy a database
+#   along-with Kong as part of a single Helm release. Running a database
+#   independently is recommended for production, but the built-in Postgres is
+#   useful for quickly creating test instances.
+
+# PostgreSQL chart documentation:
+# https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
+#
+# WARNING: by default, the Postgres chart generates a random password each
+# time it upgrades, which breaks access to existing volumes. You should set a
+# password explicitly:
+# https://github.com/Kong/charts/blob/main/charts/kong/FAQs.md#kong-fails-to-start-after-helm-upgrade-when-postgres-is-used-what-do-i-do
+
+postgresql:
+  enabled: "true"
+  postgresqlUsername: "kong"
+  postgresqlDatabase: "kong"
+  postgresqlPassword: "kong"
+
+# -----------------------------------------------------------------------------
+# Miscellaneous parameters
+# -----------------------------------------------------------------------------
+
+waitImage:
+  # Wait for the database to come online before starting Kong or running migrations
+  # If Kong is to access the database through a service mesh that injects a sidecar to
+  # Kong's container, this must be disabled. Otherwise there'll be a deadlock:
+  # InitContainer waiting for DB access that requires the sidecar, and the sidecar
+  # waiting for InitContainers to finish.
+  enabled: true
+  # Optionally specify an image that provides bash for pre-migration database
+  # checks. If none is specified, the chart uses the Kong image. The official
+  # Kong images provide bash
+  # repository: bash
+  # tag: 5
+  pullPolicy: IfNotPresent
