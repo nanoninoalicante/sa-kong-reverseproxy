@@ -92,7 +92,6 @@ postgresql:
   auth:
     username: kong
     database: kong
-    password: kong
   image:
     # use postgres < 14 until is https://github.com/Kong/kong/issues/8533 resolved and released
     # enterprise (kong-gateway) supports postgres 14
