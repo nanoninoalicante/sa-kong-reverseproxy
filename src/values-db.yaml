@@ -7,6 +7,16 @@ env:
   pg_port: "5432"
   pg_database: "kong"
 
+proxy:
+  # Enable creating a Kubernetes service for the proxy
+  enabled: true
+  type: LoadBalancer
+  # To specify annotations or labels for the proxy service, add them to the respective
+  # "annotations" or "labels" dictionaries below.
+  annotations: {
+    kubernetes.io/ingress.class: gce
+  }
+
 # Enable/disable migration jobs, and set annotations for them
 migrations:
   # Enable pre-upgrade migrations (run "kong migrations up")
@@ -58,7 +68,7 @@ admin:
   # API of Kong outside the k8s cluster.
   ingress:
     # Enable/disable exposure using ingress.
-    enabled: false
+    enabled: true
     ingressClassName:
     # TLS secret name.
     # tls: kong-admin.example.com-tls
