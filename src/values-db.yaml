@@ -1,14 +1,6 @@
-    
+# Specify Kong admin API service and listener configuration
 env:
   database: "postgres"
-  pg_user: "kong"
-  pg_password: "kong"
-  pg_database: "kong"
-  ph_host: "postgres-postgresql"
-  # admin_api_uri: "http://admin.kongproxy.me"
-  # admin_gui_url: "http://manager.kongproxy.me"
-  #admin_gui_url: "http://34.139.235.182:8002/"
-# Specify Kong admin API service and listener configuration
 admin:
   # Enable creating a Kubernetes service for the admin API
   # Disabling this is recommended for most ingress controller configurations
@@ -62,14 +54,3 @@ admin:
     path: /
     # Each path in an Ingress is required to have a corresponding path type. (ImplementationSpecific/Exact/Prefix)
     pathType: ImplementationSpecific
-
-# PostgreSQL chart documentation:
-# https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
-
-# postgresql:
-#   enabled: true
-#   postgresqlUsername: kong
-#   postgresqlDatabase: kong
-#   postgresqlPassword: kong  
-  # service:
-  #   port: 5432
