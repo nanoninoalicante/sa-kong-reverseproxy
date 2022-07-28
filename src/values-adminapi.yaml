@@ -1,11 +1,6 @@
 # Specify Kong admin API service and listener configuration
 env:
-  database: "postgres"
-  pg_user: "kong"
-  pg_password: "kong"
-  pg_database: "kong"
-  ph_host: "postgres-postgresql"
-  
+  database: "off"
 admin:
   # Enable creating a Kubernetes service for the admin API
   # Disabling this is recommended for most ingress controller configurations
