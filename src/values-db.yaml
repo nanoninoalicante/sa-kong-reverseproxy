@@ -7,38 +7,6 @@ env:
   pg_port: "5432"
   pg_database: "kong"
 
-proxy:
-  # Enable creating a Kubernetes service for the proxy
-  enabled: true
-  type: LoadBalancer
-  # To specify annotations or labels for the proxy service, add them to the respective
-  # "annotations" or "labels" dictionaries below.
-  annotations: {}
-  labels:
-    enable-metrics: "true"
-
-  http:
-    # Enable plaintext HTTP listen for the proxy
-    enabled: true
-    servicePort: 80
-    containerPort: 8000
-    # Set a nodePort which is available if service type is NodePort
-    # nodePort: 32080
-    # Additional listen parameters, e.g. "reuseport", "backlog=16384"
-    parameters: []
-
-  tls:
-    # Enable HTTPS listen for the proxy
-    enabled: true
-    servicePort: 443
-    containerPort: 8443
-    # Set a target port for the TLS port in proxy service
-    # overrideServiceTargetPort: 8000
-    # Set a nodePort which is available if service type is NodePort
-    # nodePort: 32443
-    # Additional listen parameters, e.g. "reuseport", "backlog=16384"
-    parameters:
-    - http2
 # Enable/disable migration jobs, and set annotations for them
 migrations:
   # Enable pre-upgrade migrations (run "kong migrations up")
