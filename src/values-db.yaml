@@ -14,7 +14,7 @@ proxy:
   # To specify annotations or labels for the proxy service, add them to the respective
   # "annotations" or "labels" dictionaries below.
   annotations: {}
-  loadBalancerIP: "34.75.214.94"
+  loadBalancerIP: 34.75.214.94
 
 # Enable/disable migration jobs, and set annotations for them
 migrations:
