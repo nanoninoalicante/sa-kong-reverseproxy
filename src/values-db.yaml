@@ -6,6 +6,28 @@ env:
   pg_host: "postgres-postgresql"
   pg_port: "5432"
   pg_database: "kong"
+
+enterprise:
+  enabled: true
+  # Kong Enterprise license secret name
+  # This secret must contain a single 'license' key, containing your base64-encoded license data
+  # The license secret is required to unlock all Enterprise features. If you omit it,
+  # Kong will run in free mode, with some Enterprise features disabled.
+  # license_secret: kong-enterprise-license
+  vitals:
+    enabled: true
+  portal:
+    enabled: false
+
+# Specify Kong's Docker image and repository details here
+image:
+  repository: kong/kong-gateway
+  tag: "2.8"
+  # Kong Enterprise
+  # repository: kong/kong-gateway
+  # tag: "2.8"
+
+  pullPolicy: IfNotPresent
   
 proxy:
   # Enable creating a Kubernetes service for the proxy
