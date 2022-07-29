@@ -83,7 +83,7 @@ admin:
 manager:
   # Enable creating a Kubernetes service for Kong Manager
   enabled: true
-  type: NodePort
+  type: LoadBalancer
   # To specify annotations or labels for the Manager service, add them to the respective
   # "annotations" or "labels" dictionaries below.
   annotations: {}
@@ -125,3 +125,4 @@ manager:
     path: /
     # Each path in an Ingress is required to have a corresponding path type. (ImplementationSpecific/Exact/Prefix)
     pathType: ImplementationSpecific
+
