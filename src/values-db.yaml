@@ -13,9 +13,8 @@ proxy:
   type: LoadBalancer
   # To specify annotations or labels for the proxy service, add them to the respective
   # "annotations" or "labels" dictionaries below.
-  annotations: {
-    kubernetes.io/ingress.class: gce
-  }
+  annotations: {}
+  loadBalancerIP: "34.75.214.94"
 
 # Enable/disable migration jobs, and set annotations for them
 migrations:
