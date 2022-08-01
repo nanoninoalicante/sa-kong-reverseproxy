@@ -6,8 +6,8 @@ env:
   pg_host: "postgres-postgresql"
   pg_port: "5432"
   pg_database: "kong"
-  # admin_api_uri: "http://34.139.89.180:8001"
-  # admin_gui_url: "http://34.138.81.64:8002"
+  admin_api_uri: "http://104.196.63.37:8001"
+  admin_gui_url: "http://34.148.125.77:8002"
 
 enterprise:
   enabled: true
