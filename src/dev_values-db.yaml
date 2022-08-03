@@ -30,6 +30,11 @@ image:
   # tag: "2.8"
 
   pullPolicy: IfNotPresent
+
+# Kong pod count.
+# It has no effect when autoscaling.enabled is set to true
+replicaCount: 3
+
   
 proxy:
   # Enable creating a Kubernetes service for the proxy
