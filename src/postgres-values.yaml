@@ -2,3 +2,9 @@ image:
   repository: postgres
   tag: "14"
   pullPolicy: IfNotPresent
+
+postgresql:
+  username: kong
+  password: kong
+  database: kong
+  port: 5432
