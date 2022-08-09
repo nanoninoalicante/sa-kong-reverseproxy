@@ -119,7 +119,7 @@ admin:
 
 manager:
   # Enable creating a Kubernetes service for Kong Manager
-  enabled: false
+  enabled: true
   type: LoadBalancer
   # To specify annotations or labels for the Manager service, add them to the respective
   # "annotations" or "labels" dictionaries below.
