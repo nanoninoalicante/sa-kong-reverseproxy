@@ -1,0 +1,184 @@
+# Specify Kong admin API service and listener configuration
+env:
+  database: "off"
+  # admin_api_uri: "http://34.74.244.28:8001"
+  # admin_gui_url: "http://35.231.58.103:8002"
+
+enterprise:
+  enabled: false
+  # Kong Enterprise license secret name
+  # This secret must contain a single 'license' key, containing your base64-encoded license data
+  # The license secret is required to unlock all Enterprise features. If you omit it,
+  # Kong will run in free mode, with some Enterprise features disabled.
+  # license_secret: kong-enterprise-license
+  vitals:
+    enabled: true
+  portal:
+    enabled: false
+
+# Specify Kong's Docker image and repository details here
+image:
+  repository: kong/kong-gateway
+  tag: "2.8"
+  # Kong Enterprise
+  # repository: kong/kong-gateway
+  # tag: "2.8"
+
+  pullPolicy: IfNotPresent
+
+# Kong pod count.
+# It has no effect when autoscaling.enabled is set to true
+replicaCount: 1
+
+# Annotations to be added to Kong deployment
+deploymentAnnotations: {}
+
+# Enable autoscaling using HorizontalPodAutoscaler
+# When configuring an HPA, you must set resource requests on all containers via
+# "resources" and, if using the controller, "ingressController.resources" in values.yaml
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  behavior: {}
+  ## targetCPUUtilizationPercentage only used if the cluster doesn't support autoscaling/v2beta
+  targetCPUUtilizationPercentage:
+  ## Otherwise for clusters that do support autoscaling/v2beta, use metrics
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+  
+proxy:
+  # Enable creating a Kubernetes service for the proxy
+  enabled: true
+  type: LoadBalancer
+  # To specify annotations or labels for the proxy service, add them to the respective
+  # "annotations" or "labels" dictionaries below.
+  annotations: {}
+  # loadBalancerIP: 104.196.39.73
+
+
+admin:
+  # Enable creating a Kubernetes service for the admin API
+  # Disabling this is recommended for most ingress controller configurations
+  # Enterprise users that wish to use Kong Manager with the controller should enable this
+  enabled: true
+  type: LoadBalancer
+  # To specify annotations or labels for the admin service, add them to the respective
+  # "annotations" or "labels" dictionaries below.
+  annotations: {}
+  #  service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+  labels: {}
+
+  http:
+    # Enable plaintext HTTP listen for the admin API
+    # Disabling this and using a TLS listen only is recommended for most configuration
+    enabled: true
+    servicePort: 8001
+    containerPort: 8001
+    # Set a nodePort which is available if service type is NodePort
+    # nodePort: 32080
+    # Additional listen parameters, e.g. "reuseport", "backlog=16384"
+    parameters: []
+
+  tls:
+    # Enable HTTPS listen for the admin API
+    enabled: true
+    servicePort: 8444
+    containerPort: 8444
+    # Set a target port for the TLS port in the admin API service, useful when using TLS
+    # termination on an ELB.
+    # overrideServiceTargetPort: 8000
+    # Set a nodePort which is available if service type is NodePort
+    # nodePort: 32443
+    # Additional listen parameters, e.g. "reuseport", "backlog=16384"
+    parameters:
+    - http2
+
+  # Kong admin ingress settings. Useful if you want to expose the Admin
+  # API of Kong outside the k8s cluster.
+  ingress:
+    # Enable/disable exposure using ingress.
+    enabled: false
+    ingressClassName:
+    # TLS secret name.
+    # tls: kong-admin.example.com-tls
+    # Ingress hostname
+    hostname:
+    # Map of ingress annotations.
+    annotations: {}
+    # Ingress path.
+    path: /
+    # Each path in an Ingress is required to have a corresponding path type. (ImplementationSpecific/Exact/Prefix)
+    pathType: ImplementationSpecific
+
+manager:
+  # Enable creating a Kubernetes service for Kong Manager
+  enabled: false
+  type: LoadBalancer
+  # To specify annotations or labels for the Manager service, add them to the respective
+  # "annotations" or "labels" dictionaries below.
+  annotations: {}
+  #  service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+  labels: {}
+
+  http:
+    # Enable plaintext HTTP listen for Kong Manager
+    enabled: true
+    servicePort: 8002
+    containerPort: 8002
+    # Set a nodePort which is available if service type is NodePort
+    # nodePort: 32080
+    # Additional listen parameters, e.g. "reuseport", "backlog=16384"
+    parameters: []
+
+  tls:
+    # Enable HTTPS listen for Kong Manager
+    enabled: true
+    servicePort: 8445
+    containerPort: 8445
+    # Set a nodePort which is available if service type is NodePort
+    # nodePort: 32443
+    # Additional listen parameters, e.g. "reuseport", "backlog=16384"
+    parameters:
+    - http2
+
+  ingress:
+    # Enable/disable exposure using ingress.
+    enabled: false
+    ingressClassName:
+    # TLS secret name.
+    # tls: kong-manager.example.com-tls
+    # Ingress hostname
+    hostname:
+    # Map of ingress annotations.
+    annotations: {}
+    # Ingress path.
+    path: /
+    # Each path in an Ingress is required to have a corresponding path type. (ImplementationSpecific/Exact/Prefix)
+    pathType: ImplementationSpecific
+
+
+
+# Kong's configuration for DB-less mode
+# Note: Use this section only if you are deploying Kong in DB-less mode
+# and not as an Ingress Controller.
+dblessConfig:
+  # Either Kong's configuration is managed from an existing ConfigMap (with Key: kong.yml)
+  # configMap: ""
+  # Or the configuration is passed in full-text below
+  config: |
+    _format_version: "1.1"
+    services:
+      # Example configuration
+      # - name: example.com
+      #   url: http://example.com
+      #   routes:
+      #   - name: example
+      #     paths:
+      #     - "/example"
