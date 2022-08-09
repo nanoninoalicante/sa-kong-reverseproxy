@@ -3,6 +3,16 @@ env:
   database: "off"
   # admin_api_uri: "http://34.74.244.28:8001"
   # admin_gui_url: "http://35.231.58.103:8002"
+  nginx_worker_processes: "2"
+  proxy_access_log: /dev/stdout
+  admin_access_log: /dev/stdout
+  admin_gui_access_log: /dev/stdout
+  portal_api_access_log: /dev/stdout
+  proxy_error_log: /dev/stderr
+  admin_error_log: /dev/stderr
+  admin_gui_error_log: /dev/stderr
+  portal_api_error_log: /dev/stderr
+  prefix: /kong_prefix/
 
 enterprise:
   enabled: true
@@ -68,7 +78,7 @@ admin:
   # Disabling this is recommended for most ingress controller configurations
   # Enterprise users that wish to use Kong Manager with the controller should enable this
   enabled: true
-  type: LoadBalancer
+  type: NodePort
   # To specify annotations or labels for the admin service, add them to the respective
   # "annotations" or "labels" dictionaries below.
   annotations: {}
@@ -119,7 +129,7 @@ admin:
 
 manager:
   # Enable creating a Kubernetes service for Kong Manager
-  enabled: true
+  enabled: false
   type: LoadBalancer
   # To specify annotations or labels for the Manager service, add them to the respective
   # "annotations" or "labels" dictionaries below.
