@@ -170,7 +170,7 @@ manager:
 # and not as an Ingress Controller.
 dblessConfig:
   # Either Kong's configuration is managed from an existing ConfigMap (with Key: kong.yml)
-  configMap: "kong.yaml"
+  # configMap: "kong.yaml"
   # Or the configuration is passed in full-text below
   config: |
     _format_version: "2.1"
