@@ -5,7 +5,7 @@ env:
   # admin_gui_url: "http://35.231.58.103:8002"
 
 enterprise:
-  enabled: false
+  enabled: true
   # Kong Enterprise license secret name
   # This secret must contain a single 'license' key, containing your base64-encoded license data
   # The license secret is required to unlock all Enterprise features. If you omit it,
