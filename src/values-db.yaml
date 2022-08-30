@@ -8,6 +8,7 @@ env:
   pg_database: "kong"
   admin_api_uri: "http://34.139.89.180:8001"
   admin_gui_url: "http://34.138.81.64:8002"
+  mem_cache_size: "512m"
 
 enterprise:
   enabled: true
