@@ -9,6 +9,7 @@ env:
   admin_api_uri: "http://34.74.244.28:8001"
   admin_gui_url: "http://35.231.58.103:8002"
   mem_cache_size: "1024m"
+  upstream_keepalive_idle_timeout: "300"
 
 enterprise:
   enabled: true
